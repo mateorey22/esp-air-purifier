@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP Air Purifier - Hybrid Desktop Air Purifier</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 25px;
+            font-size: 2rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .diagram-container {
+            text-align: center;
+            margin: 30px 0;
+            overflow-x: auto;
+        }
+
+        .diagram-container svg {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .architecture {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .component {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 35px;
+            border-radius: 15px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .component:hover {
+            transform: translateY(-5px);
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .flow-label {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .bom-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .bom-table th, .bom-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .bom-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+        }
+
+        .bom-table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .total-row {
+            background: #667eea !important;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .spec-item {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .spec-item h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            min-width: 50px;
+        }
+
+        .feature h3 {
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .warning h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .warning ul {
+            margin-left: 20px;
+        }
+
+        .warning li {
+            color: #856404;
+            margin: 5px 0;
+        }
+
+        .dimensions {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .dimension {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            min-width: 150px;
+        }
+
+        .dimension .value {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .dimension .label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            .architecture {
+                flex-direction: column;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🌬️ ESP Air Purifier</h1>
+            <p>Hybrid Filtration for Ultra-Compact Desktop Use</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Cross Section View</h2>
+            <div class="diagram-container">
+                <?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <defs>
+    <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#888;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ccc;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#666;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="blowerGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a5298;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e3c72;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="carbonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#333;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#555;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#222;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="gridPattern" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#ddd" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="1000" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="400" y="50" font-family="Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="middle" fill="#1a1a2e">
+    ESP AIR PURIFIER - Hybrid Desktop Air Purifier
+  </text>
+  <text x="400" y="80" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#666">
+    Proof of Concept - Cross Section View
+  </text>
+
+  <!-- Main Cylindrical Body -->
+  <ellipse cx="400" cy="900" rx="180" ry="30" fill="url(#metalGrad)" stroke="#444" stroke-width="2"/>
+  <rect x="220" y="200" width="360" height="700" fill="#e8e8e8" stroke="#444" stroke-width="3" rx="10"/>
+  <ellipse cx="400" y="200" rx="180" ry="30" fill="#f0f0f0" stroke="#444" stroke-width="3"/>
+
+  <!-- Air Flow Arrows -->
+  <g fill="#4CAF50" opacity="0.8">
+    <polygon points="600,350 580,330 580,370"/>
+    <rect x="580" y="340" width="60" height="8"/>
+    <polygon points="640,350 620,330 620,370"/>
+  </g>
+  <text x="620" y="390" font-family="Arial" font-size="14" fill="#4CAF50" font-weight="bold">AIRFLOW</text>
+
+  <!-- COMPONENT 1: Air Intake (Bottom) -->
+  <rect x="250" y="800" width="300" height="60" fill="#ddd" stroke="#888" stroke-width="2" rx="5"/>
+  <g fill="#999">
+    <rect x="260" y="810" width="280" height="8" rx="2"/>
+    <rect x="260" y="825" width="280" height="8" rx="2"/>
+    <rect x="260" y="840" width="280" height="8" rx="2"/>
+  </g>
+  <text x="400" y="870" font-family="Arial" font-size="14" text-anchor="middle" fill="#333" font-weight="bold">AIR INTAKE</text>
+  <text x="400" y="885" font-family="Arial" font-size="11" text-anchor="middle" fill="#666">(Bottom Vents)</text>
+
+  <!-- COMPONENT 2: Centrifugal Blower -->
+  <rect x="240" y="620" width="320" height="120" fill="#cce5ff" stroke="#007bff" stroke-width="2" rx="10"/>
+  <circle cx="400" cy="680" r="50" fill="url(#blowerGrad)" stroke="#1e3c72" stroke-width="3"/>
+  <!-- Blower blades -->
+  <g stroke="#fff" stroke-width="2" fill="none">
+    <ellipse cx="400" cy="680" rx="45" ry="15" transform="rotate(0 400 680)"/>
+    <ellipse cx="400" cy="680" rx="45" ry="15" transform="rotate(45 400 680)"/>
+    <ellipse cx="400" cy="680" rx="45" ry="15" transform="rotate(90 400 680)"/>
+    <ellipse cx="400" cy="680" rx="45" ry="15" transform="rotate(135 400 680)"/>
+  </g>
+  <circle cx="400" cy="680" r="12" fill="#333"/>
+  <text x="400" y="770" font-family="Arial" font-size="14" text-anchor="middle" fill="#007bff" font-weight="bold">CENTRIFUGAL BLOWER</text>
+  <text x="400" y="785" font-family="Arial" font-size="11" text-anchor="middle" fill="#666">7525/8038 - 5V DC</text>
+
+  <!-- COMPONENT 3: ESP Zone -->
+  <rect x="230" y="350" width="340" height="220" fill="#fff3e0" stroke="#ff9800" stroke-width="2" rx="10"/>
+  <!-- Ionization wires -->
+  <g stroke="#e91e63" stroke-width="2">
+    <line x1="250" y1="380" x2="550" y2="380"/>
+    <line x1="250" y1="420" x2="550" y2="420"/>
+    <line x1="250" y1="460" x2="550" y2="460"/>
+    <line x1="250" y1="500" x2="550" y2="500"/>
+    <line x1="250" y1="540" x2="550" y2="540"/>
+  </g>
+  <!-- Collection plates -->
+  <g fill="url(#metalGrad)" stroke="#444" stroke-width="1">
+    <rect x="260" y="370" width="15" height="220" rx="2"/>
+    <rect x="300" y="370" width="15" height="220" rx="2"/>
+    <rect x="340" y="370" width="15" height="220" rx="2"/>
+    <rect x="380" y="370" width="15" height="220" rx="2"/>
+    <rect x="420" y="370" width="15" height="220" rx="2"/>
+    <rect x="460" y="370" width="15" height="220" rx="2"/>
+    <rect x="500" y="370" width="15" height="220" rx="2"/>
+  </g>
+  <!-- High voltage indicator -->
+  <circle cx="270" cy="355" r="15" fill="#f44336" stroke="#c62828" stroke-width="2"/>
+  <text x="270" y="360" font-family="Arial" font-size="16" text-anchor="middle" fill="white" font-weight="bold">⚡</text>
+  <text x="400" y="330" font-family="Arial" font-size="14" text-anchor="middle" fill="#ff9800" font-weight="bold">ELECTROSTATIC PRECIPITATOR (ESP)</text>
+  <text x="400" y="345" font-family="Arial" font-size="11" text-anchor="middle" fill="#666">8-12kV High Voltage Zone - Particle Charging</text>
+
+  <!-- COMPONENT 4: Carbon Foam Filter -->
+  <rect x="250" y="270" width="300" height="50" fill="url(#carbonGrad)" stroke="#333" stroke-width="2" rx="5"/>
+  <g fill="#666" opacity="0.5">
+    <circle cx="270" cy="295" r="8"/>
+    <circle cx="300" cy="285" r="6"/>
+    <circle cx="330" cy="300" r="7"/>
+    <circle cx="360" cy="290" r="5"/>
+    <circle cx="400" cy="295" r="8"/>
+    <circle cx="440" cy="288" r="6"/>
+    <circle cx="480" cy="300" r="7"/>
+    <circle cx="510" cy="292" r="5"/>
+  </g>
+  <text x="400" y="340" font-family="Arial" font-size="14" text-anchor="middle" fill="#333" font-weight="bold">ACTIVATED CARBON FOAM</text>
+  <text x="400" y="355" font-family="Arial" font-size="11" text-anchor="middle" fill="#666">VOC & Odor Removal - 5-10mm</text>
+
+  <!-- COMPONENT 5: Air Outlet -->
+  <rect x="280" y="220" width="240" height="30" fill="#ddd" stroke="#888" stroke-width="2" rx="5"/>
+  <g fill="#999">
+    <rect x="290" y="228" width="220" height="6" rx="2"/>
+    <rect x="290" y="238" width="220" height="6" rx="2"/>
+  </g>
+  <text x="400" y="210" font-family="Arial" font-size="14" text-anchor="middle" fill="#333" font-weight="bold">CLEAN AIR OUTLET</text>
+
+  <!-- Battery Section (Side View) -->
+  <rect x="580" y="450" width="180" height="350" fill="#f5f5f5" stroke="#ccc" stroke-width="2" rx="10"/>
+  <text x="670" y="475" font-family="Arial" font-size="14" text-anchor="middle" fill="#333" font-weight="bold">POWER SYSTEM</text>
+
+  <!-- Battery -->
+  <rect x="600" y="500" width="140" height="60" fill="#4CAF50" stroke="#388E3C" stroke-width="2" rx="5"/>
+  <rect x="605" y="510" width="30" height="40" fill="#2E7D32" rx="2"/>
+  <text x="670" y="535" font-family="Arial" font-size="12" text-anchor="middle" fill="white" font-weight="bold">18650</text>
+  <text x="670" y="550" font-family="Arial" font-size="10" text-anchor="middle" fill="#c8e6c9">3.7V 3000mAh</text>
+
+  <!-- TP4056 Charger -->
+  <rect x="600" y="580" width="140" height="30" fill="#2196F3" stroke="#1976D2" stroke-width="1" rx="3"/>
+  <text x="670" y="600" font-family="Arial" font-size="11" text-anchor="middle" fill="white" font-weight="bold">TP4056 Charger</text>
+
+  <!-- Boost Converter -->
+  <rect x="600" y="630" width="140" height="30" fill="#9C27B0" stroke="#7B1FA2" stroke-width="1" rx="3"/>
+  <text x="670" y="650" font-family="Arial" font-size="11" text-anchor="middle" fill="white" font-weight="bold">MT3608 Boost 5V</text>
+
+  <!-- USB-C Port -->
+  <rect x="620" y="680" width="100" height="25" fill="#607D8B" stroke="#455A64" stroke-width="1" rx="3"/>
+  <rect x="630" y="688" width="20" height="10" fill="#37474F" rx="2"/>
+  <text x="670" y="720" font-family="Arial" font-size="12" text-anchor="middle" fill="#333">USB-C Charge</text>
+
+  <!-- Component Labels with Lines -->
+  <g stroke="#333" stroke-width="1" stroke-dasharray="4,2">
+    <line x1="220" y1="680" x2="180" y2="680"/>
+    <line x1="220" y1="460" x2="180" y2="460"/>
+    <line x1="220" y1="295" x2="180" y2="295"/>
+  </g>
+
+  <text x="170" y="685" font-family="Arial" font-size="12" text-anchor="end" fill="#007bff">1. Blower</text>
+  <text x="170" y="465" font-family="Arial" font-size="12" text-anchor="end" fill="#ff9800">2. ESP (8-12kV)</text>
+  <text x="170" y="300" font-family="Arial" font-size="12" text-anchor="end" fill="#333">3. Carbon Foam</text>
+
+  <!-- Specifications Box -->
+  <rect x="40" y="450" width="130" height="350" fill="#fff" stroke="#ddd" stroke-width="2" rx="5"/>
+  <text x="105" y="475" font-family="Arial" font-size="14" text-anchor="middle" fill="#1a1a2e" font-weight="bold">SPECIFICATIONS</text>
+
+  <g font-family="Arial" font-size="11" fill="#333">
+    <text x="50" y="505">Dimensions:</text>
+    <text x="50" y="520">Ø 8-10cm x 15cm</text>
+    <text x="50" y="540">Weight:</text>
+    <text x="50" y="555">~350g w/ battery</text>
+    <text x="50" y="575">Power:</text>
+    <text x="50" y="590">10-15W</text>
+    <text x="50" y="610">Battery:</text>
+    <text x="50" y="625">18650 Li-Ion</text>
+    <text x="50" y="645">Runtime:</text>
+    <text x="50" y="660">2-4 hours</text>
+    <text x="50" y="680">Voltage ESP:</text>
+    <text x="50" y="695">8-12kV</text>
+    <text x="50" y="715">Filter Type:</text>
+    <text x="50" y="730">Hybrid ESP+Carbon</text>
+    <text x="50" y="750">Est. Cost:</text>
+    <text x="50" y="765">~$58 USD</text>
+  </g>
+
+  <!-- Air Flow Direction -->
+  <g fill="#4CAF50">
+    <polygon points="400,870 390,850 410,850"/>
+    <text x="400" y="895" font-family="Arial" font-size="12" text-anchor="middle" fill="#4CAF50">↑ Upward Airflow</text>
+  </g>
+
+  <!-- Legend -->
+  <rect x="40" y="830" width="720" height="50" fill="#f0f0f0" stroke="#ddd" rx="5"/>
+  <text x="400" y="855" font-family="Arial" font-size="12" text-anchor="middle" fill="#666" font-weight="bold">FILTRATION FLOW: Air Intake → Blower → ESP (Particles) → Carbon (VOCs) → Clean Air</text>
+</svg>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Component Breakdown</h2>
+            <div class="diagram-container">
+                <?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" width="900" height="700">
+  <defs>
+    <linearGradient id="blowerGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3498db"/>
+      <stop offset="100%" style="stop-color:#2980b9"/>
+    </linearGradient>
+    <linearGradient id="carbonGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2c3e50"/>
+      <stop offset="100%" style="stop-color:#1a252f"/>
+    </linearGradient>
+    <linearGradient id="batteryGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#27ae60"/>
+      <stop offset="50%" style="stop-color:#2ecc71"/>
+      <stop offset="100%" style="stop-color:#27ae60"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="700" fill="#fafafa"/>
+
+  <!-- Title -->
+  <text x="450" y="35" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#2c3e50">
+    ESP AIR PURIFIER - Component Breakdown (Exploded View)
+  </text>
+
+  <!-- Connection Lines -->
+  <g stroke="#95a5a6" stroke-width="2" stroke-dasharray="5,5">
+    <line x1="450" y1="130" x2="450" y2="170"/>
+    <line x1="450" y1="210" x2="450" y2="250"/>
+    <line x1="450" y1="290" x2="450" y2="330"/>
+    <line x1="450" y1="370" x2="450" y2="410"/>
+    <line x1="450" y1="450" x2="450" y2="490"/>
+    <line x1="450" y1="530" x2="450" y2="570"/>
+  </g>
+
+  <!-- COMPONENT 1: Top Cap / Air Outlet -->
+  <g transform="translate(300, 80)">
+    <ellipse cx="150" cy="20" rx="100" ry="15" fill="#bdc3c7" stroke="#7f8c8d" stroke-width="2"/>
+    <rect x="50" y="20" width="200" height="30" fill="#ecf0f1" stroke="#95a5a6" stroke-width="2"/>
+    <ellipse cx="150" cy="50" rx="100" ry="15" fill="#bdc3c7" stroke="#7f8c8d" stroke-width="2"/>
+    <text x="150" y="40" font-family="Arial" font-size="11" text-anchor="middle" fill="#2c3e50" font-weight="bold">Top Cap</text>
+    <text x="150" y="55" font-family="Arial" font-size="9" text-anchor="middle" fill="#7f8c8d">Air Outlet Grill</text>
+  </g>
+
+  <!-- COMPONENT 2: Carbon Foam Filter -->
+  <g transform="translate(280, 180)">
+    <rect x="0" y="0" width="340" height="40" fill="url(#carbonGrad2)" stroke="#1a252f" stroke-width="2" rx="5"/>
+    <g fill="#34495e" opacity="0.6">
+      <circle cx="40" cy="20" r="8"/>
+      <circle cx="80" cy="15" r="6"/>
+      <circle cx="120" cy="25" r="7"/>
+      <circle cx="170" cy="18" r="5"/>
+      <circle cx="220" cy="22" r="8"/>
+      <circle cx="270" cy="16" r="6"/>
+      <circle cx="300" cy="24" r="5"/>
+    </g>
+    <text x="170" y="30" font-family="Arial" font-size="12" text-anchor="middle" fill="#ecf0f1" font-weight="bold">ACTIVATED CARBON FOAM FILTER</text>
+    <text x="170" y="48" font-family="Arial" font-size="9" text-anchor="middle" fill="#95a5a6">VOC & Odor Removal | 5-10mm Thickness</text>
+  </g>
+
+  <!-- COMPONENT 3: ESP Chamber -->
+  <g transform="translate(250, 260)">
+    <rect x="0" y="0" width="400" height="100" fill="#fff3e0" stroke="#f39c12" stroke-width="2" rx="5"/>
+    <!-- Ionization wires -->
+    <g stroke="#e74c3c" stroke-width="2">
+      <line x1="30" y1="20" x2="370" y2="20"/>
+      <line x1="30" y1="40" x2="370" y2="40"/>
+      <line x1="30" y1="60" x2="370" y2="60"/>
+      <line x1="30" y1="80" x2="370" y2="80"/>
+    </g>
+    <!-- Collection plates -->
+    <g fill="url(#blowerGrad2)" stroke="#2980b9" stroke-width="1">
+      <rect x="60" y="10" width="12" height="80" rx="2"/>
+      <rect x="100" y="10" width="12" height="80" rx="2"/>
+      <rect x="140" y="10" width="12" height="80" rx="2"/>
+      <rect x="180" y="10" width="12" height="80" rx="2"/>
+      <rect x="220" y="10" width="12" height="80" rx="2"/>
+      <rect x="260" y="10" width="12" height="80" rx="2"/>
+      <rect x="300" y="10" width="12" height="80" rx="2"/>
+    </g>
+    <!-- HV Indicator -->
+    <circle cx="30" cy="10" r="12" fill="#f44336" stroke="#c62828"/>
+    <text x="30" y="14" font-family="Arial" font-size="14" text-anchor="middle" fill="white" font-weight="bold">⚡</text>
+    <text x="200" y="55" font-family="Arial" font-size="12" text-anchor="middle" fill="#f39c12" font-weight="bold">ELECTROSTATIC PRECIPITATOR (ESP)</text>
+    <text x="200" y="70" font-family="Arial" font-size="9" text-anchor="middle" fill="#7f8c8d">8-12kV Ionization Zone | 90-95% Particle Efficiency</text>
+  </g>
+
+  <!-- COMPONENT 4: Centrifugal Blower -->
+  <g transform="translate(300, 380)">
+    <rect x="0" y="0" width="300" height="80" fill="#e8f4f8" stroke="#3498db" stroke-width="2" rx="10"/>
+    <circle cx="150" cy="40" r="35" fill="url(#blowerGrad2)" stroke="#2980b9" stroke-width="2"/>
+    <!-- Blades -->
+    <g stroke="#ecf0f1" stroke-width="2" fill="none">
+      <ellipse cx="150" cy="40" rx="32" ry="10" transform="rotate(0 150 40)"/>
+      <ellipse cx="150" cy="40" rx="32" ry="10" transform="rotate(45 150 40)"/>
+      <ellipse cx="150" cy="40" rx="32" ry="10" transform="rotate(90 150 40)"/>
+      <ellipse cx="150" cy="40" rx="32" ry="10" transform="rotate(135 150 40)"/>
+    </g>
+    <circle cx="150" cy="40" r="8" fill="#2c3e50"/>
+    <text x="150" y="55" font-family="Arial" font-size="12" text-anchor="middle" fill="#3498db" font-weight="bold">CENTRIFUGAL BLOWER</text>
+    <text x="150" y="70" font-family="Arial" font-size="9" text-anchor="middle" fill="#7f8c8d">7525/8038 Model | 5V DC | 2-5 CFM</text>
+  </g>
+
+  <!-- COMPONENT 5: Main Body / Casing -->
+  <g transform="translate(200, 480)">
+    <rect x="0" y="0" width="500" height="60" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="2" rx="5"/>
+    <text x="250" y="35" font-family="Arial" font-size="12" text-anchor="middle" fill="#7f8c8d" font-weight="bold">MAIN CYLINDRICAL BODY CASING</text>
+    <text x="250" y="50" font-family="Arial" font-size="9" text-anchor="middle" fill="#95a5a6">Ø 8-10cm x 12-15cm | ABS/PLA 3D Printed</text>
+  </g>
+
+  <!-- COMPONENT 6: Power System Box -->
+  <g transform="translate(300, 560)">
+    <rect x="0" y="0" width="300" height="100" fill="#f8f9fa" stroke="#bdc3c7" stroke-width="2" rx="5"/>
+    <!-- Battery -->
+    <rect x="30" y="20" width="80" height="40" fill="url(#batteryGrad)" stroke="#1e8449" stroke-width="1" rx="3"/>
+    <rect x="35" y="28" width="15" height="24" fill="#1e8449"/>
+    <text x="70" y="45" font-family="Arial" font-size="10" text-anchor="middle" fill="white" font-weight="bold">18650</text>
+    <!-- TP4056 -->
+    <rect x="120" y="25" width="50" height="20" fill="#3498db" stroke="#2980b9" rx="2"/>
+    <text x="145" y="39" font-family="Arial" font-size="8" text-anchor="middle" fill="white">TP4056</text>
+    <!-- Boost -->
+    <rect x="180" y="25" width="50" height="20" fill="#9b59b6" stroke="#8e44ad" rx="2"/>
+    <text x="205" y="39" font-family="Arial" font-size="8" text-anchor="middle" fill="white">MT3608</text>
+    <!-- USB-C -->
+    <rect x="240" y="28" width="30" height="14" fill="#34495e" stroke="#2c3e50" rx="2"/>
+    <text x="255" y="70" font-family="Arial" font-size="11" text-anchor="middle" fill="#2c3e50" font-weight="bold">POWER SYSTEM</text>
+    <text x="255" y="85" font-family="Arial" font-size="9" text-anchor="middle" fill="#7f8c8d">18650 + TP4056 + Boost 5V | USB-C Charging</text>
+  </g>
+
+  <!-- Arrow showing assembly direction -->
+  <g fill="#e74c3c">
+    <polygon points="450,610 440,590 460,590"/>
+    <text x="450" y="625" font-family="Arial" font-size="10" text-anchor="middle" fill="#e74c3c" font-weight="bold">↓ ASSEMBLY DIRECTION ↓</text>
+  </g>
+
+  <!-- BOM Summary -->
+  <rect x="720" y="50" width="160" height="550" fill="#fff" stroke="#ddd" rx="5"/>
+  <text x="800" y="75" font-family="Arial" font-size="14" text-anchor="middle" fill="#2c3e50" font-weight="bold">BILL OF MATERIALS</text>
+
+  <g font-family="Arial" font-size="10" fill="#333">
+    <text x="730" y="100" font-weight="bold">1. Top Cap</text>
+    <text x="730" y="115">3D Printed</text>
+
+    <text x="730" y="140" font-weight="bold">2. Carbon Foam</text>
+    <text x="730" y="155">Activated Carbon</text>
+    <text x="730" y="170">~8 USD</text>
+
+    <text x="730" y="195" font-weight="bold">3. ESP Module</text>
+    <text x="730" y="210">12V→8-12kV HV</text>
+    <text x="730" y="225">~15 USD</text>
+
+    <text x="730" y="250" font-weight="bold">4. Blower</text>
+    <text x="730" y="265">7525 Centrifugal</text>
+    <text x="730" y="280">~10 USD</text>
+
+    <text x="730" y="305" font-weight="bold">5. Casing</text>
+    <text x="730" y="320">3D Printed ABS</text>
+
+    <text x="730" y="345" font-weight="bold">6. Battery</text>
+    <text x="730" y="360">18650 3000mAh</text>
+    <text x="730" y="375">~5 USD</text>
+
+    <text x="730" y="400" font-weight="bold">7. TP4056</text>
+    <text x="730" y="415">USB-C Charger</text>
+    <text x="730" y="430">~2 USD</text>
+
+    <text x="730" y="455" font-weight="bold">8. MT3608</text>
+    <text x="730" y="470">Boost 5V 2A</text>
+    <text x="730" y="485">~3 USD</text>
+
+    <text x="730" y="520" font-size="12" font-weight="bold">TOTAL ESTIMATE:</text>
+    <text x="730" y="545" font-size="14" fill="#27ae60" font-weight="bold">~58 USD</text>
+  </g>
+
+  <!-- Flow arrows -->
+  <g fill="none" stroke="#27ae60" stroke-width="3">
+    <path d="M 650 200 Q 680 200 680 230 Q 680 260 650 260" marker-end="url(#arrowhead)"/>
+    <path d="M 650 330 Q 680 330 680 360 Q 680 390 650 390" marker-end="url(#arrowhead)"/>
+  </g>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#27ae60"/>
+    </marker>
+  </defs>
+</svg>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>How It Works</h2>
+            <p class="flow-label">Air Flow Direction →</p>
+            <div class="architecture">
+                <div class="component">
+                    <div style="font-size: 3rem;">🔄</div>
+                    <div>Centrifugal<br>Blower</div>
+                    <div style="font-size: 0.8rem; margin-top: 5px;">(Inlet)</div>
+                </div>
+                <div class="arrow">→</div>
+                <div class="component">
+                    <div style="font-size: 3rem;">⚡</div>
+                    <div>ESP</div>
+                    <div style="font-size: 0.8rem; margin-top: 5px;">(Wire Grid)</div>
+                </div>
+                <div class="arrow">→</div>
+                <div class="component">
+                    <div style="font-size: 3rem;">🧽</div>
+                    <div>Carbon<br>Foam</div>
+                    <div style="font-size: 0.8rem; margin-top: 5px;">(Outlet)</div>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 20px;">
+                <span style="color: white; background: #667eea; padding: 8px 16px; border-radius: 20px;">💨 Particles & Dust</span>
+                <span style="color: white; background: #764ba2; padding: 8px 16px; border-radius: 20px;">⚡ Charged & Trapped</span>
+                <span style="color: white; background: #667eea; padding: 8px 16px; border-radius: 20px;">🧪 Gases & Odors</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Specifications</h2>
+            <div class="dimensions">
+                <div class="dimension">
+                    <div class="value">8-10</div>
+                    <div class="label">cm Diameter</div>
+                </div>
+                <div class="dimension">
+                    <div class="value">12-15</div>
+                    <div class="label">cm Height</div>
+                </div>
+                <div class="dimension">
+                    <div class="value">300-400</div>
+                    <div class="label">g with Battery</div>
+                </div>
+            </div>
+            <div class="specs-grid">
+                <div class="spec-item">
+                    <h3>🔌 Power</h3>
+                    <p>10-15W total consumption</p>
+                    <p>5V DC (USB powered)</p>
+                    <p>~3-5W for blower</p>
+                </div>
+                <div class="spec-item">
+                    <h3>🔋 Battery</h3>
+                    <p>18650 Li-Ion</p>
+                    <p>2000-3000mAh</p>
+                    <p>2-4 hours runtime</p>
+                </div>
+                <div class="spec-item">
+                    <h3>💨 Airflow</h3>
+                    <p>2-5 CFM</p>
+                    <p>Quiet operation</p>
+                    <p>Low pressure drop</p>
+                </div>
+                <div class="spec-item">
+                    <h3>⚡ High Voltage</h3>
+                    <p>8-12kV ESP section</p>
+                    <p>12V to HV step-up</p>
+                    <p>~5-10W power</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Key Features</h2>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">✅</div>
+                    <div>
+                        <h3>Zero Air Resistance</h3>
+                        <p>ESP has minimal pressure drop for efficient airflow</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">✅</div>
+                    <div>
+                        <h3>Ultra Compact</h3>
+                        <p>Turbine + ESP + carbon in vertical stack design</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">✅</div>
+                    <div>
+                        <h3>Washable Filters</h3>
+                        <p>ESP plates + carbon foam can be cleaned</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">✅</div>
+                    <div>
+                        <h3>Portable</h3>
+                        <p>Single 18650 battery power</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">✅</div>
+                    <div>
+                        <h3>Quiet Operation</h3>
+                        <p>No restrictive HEPA filters</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">✅</div>
+                    <div>
+                        <h3>Dual Filtration</h3>
+                        <p>Effective for particles AND gases</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Bill of Materials</h2>
+            <table class="bom-table">
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Quantity</th>
+                        <th>Price (~$)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Centrifugal Blower 5V</td>
+                        <td>1</td>
+                        <td>$10</td>
+                    </tr>
+                    <tr>
+                        <td>HV Generator Module 12V</td>
+                        <td>1</td>
+                        <td>$15</td>
+                    </tr>
+                    <tr>
+                        <td>Stainless Steel Mesh</td>
+                        <td>1</td>
+                        <td>$5</td>
+                    </tr>
+                    <tr>
+                        <td>Carbon Foam Sheet</td>
+                        <td>1</td>
+                        <td>$8</td>
+                    </tr>
+                    <tr>
+                        <td>18650 Battery</td>
+                        <td>1</td>
+                        <td>$5</td>
+                    </tr>
+                    <tr>
+                        <td>TP4056 Charger Module</td>
+                        <td>1</td>
+                        <td>$2</td>
+                    </tr>
+                    <tr>
+                        <td>MT3608 Boost Converter</td>
+                        <td>1</td>
+                        <td>$3</td>
+                    </tr>
+                    <tr>
+                        <td>ESP32-C3 (optional)</td>
+                        <td>1</td>
+                        <td>$5</td>
+                    </tr>
+                    <tr>
+                        <td>Misc (wires, connectors)</td>
+                        <td>-</td>
+                        <td>$5</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td>TOTAL</td>
+                        <td></td>
+                        <td>~$58</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Internal Layout</h2>
+            <div class="specs-grid">
+                <div class="spec-item">
+                    <h3>🔻 Bottom</h3>
+                    <p>18650 Battery + TP4056 + Boost Converter</p>
+                </div>
+                <div class="spec-item">
+                    <h3>🔸 Lower Mid</h3>
+                    <p>Centrifugal Blower (horizontal orientation)</p>
+                </div>
+                <div class="spec-item">
+                    <h3>⚡ Middle</h3>
+                    <p>ESP Collection Chamber (cylindrical)</p>
+                </div>
+                <div class="spec-item">
+                    <h3>🧽 Upper Mid</h3>
+                    <p>Carbon Foam Final Filter</p>
+                </div>
+                <div class="spec-item">
+                    <h3>🔼 Top</h3>
+                    <p>Air outlet grille</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="warning">
+                <h3>⚠️ Safety Notes</h3>
+                <ul>
+                    <li><strong>High voltage</strong> in ESP section (8-12kV) - keep isolated</li>
+                    <li>Use proper insulation</li>
+                    <li>Don't touch collection plates while running</li>
+                    <li>Use protected 18650 battery holder</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>🌬️ ESP Air Purifier Project | Hybrid Desktop Air Purifier</p>
+            <p style="margin-top: 10px; opacity: 0.7;">Build your own compact air purifier</p>
+        </div>
+    </footer>
+</body>
+</html>
